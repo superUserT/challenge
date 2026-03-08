@@ -1,9 +1,9 @@
 import { SnakeNamingStrategy } from '../snake-naming.strategy';
-import * as config from 'config';
+import config from 'config';
 import { UserSubscriber } from '../entity-subscribers';
 import { DataSource } from 'typeorm';
 import { readFileSync } from 'fs';
-import * as path from 'path';
+import path from 'path';
 
 const dbConfig = config.get('db');
 

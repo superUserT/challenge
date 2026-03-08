@@ -1,4 +1,11 @@
-import { Entity, Column, ManyToOne, JoinColumn, Index } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  Index,
+  AfterLoad,
+} from 'typeorm';
 import { AbstractEntity } from '../../../common/abstract.entity';
 import { LoanEntity } from '../../loan/entities/loan.entity';
 import { LoanScheduleEntity } from '../../loan-schedule/entities/loan-schedule.entity';
@@ -24,14 +31,14 @@ export enum PaymentMethod {
 @Index(['transactionDate'])
 @Index(['receiptNumber'])
 export class LoanTransactionEntity extends AbstractEntity {
-  @Column({ name: 'loan_id', type: 'bigint', nullable: false })
+  @Column({ name: 'loan_id', type: 'uuid', nullable: false })
   loanId: string;
 
   @ManyToOne(() => LoanEntity, { nullable: false, onDelete: 'CASCADE' })
   @JoinColumn({ name: 'loan_id' })
   loan: LoanEntity;
 
-  @Column({ name: 'schedule_id', type: 'bigint', nullable: true })
+  @Column({ name: 'schedule_id', type: 'uuid', nullable: true })
   scheduleId?: string;
 
   @ManyToOne(() => LoanScheduleEntity, { nullable: true, onDelete: 'SET NULL' })
@@ -49,14 +56,7 @@ export class LoanTransactionEntity extends AbstractEntity {
   @Column({ name: 'transaction_date', type: 'date', nullable: false })
   transactionDate: Date;
 
-  @Column({
-    name: 'amount',
-    type: 'decimal',
-    precision: 12,
-    scale: 2,
-    nullable: false,
-  })
-  amount: string;
+  amount: number;
 
   @Column({
     name: 'principal_amount',
@@ -94,6 +94,15 @@ export class LoanTransactionEntity extends AbstractEntity {
   })
   feeAmount: string;
 
+  @AfterLoad()
+  calculateTotalAmount() {
+    this.amount =
+      parseFloat(this.principalAmount || '0') +
+      parseFloat(this.interestAmount || '0') +
+      parseFloat(this.penaltyAmount || '0') +
+      parseFloat(this.feeAmount || '0');
+  }
+
   @Column({
     name: 'payment_method',
     type: 'enum',
@@ -111,7 +120,7 @@ export class LoanTransactionEntity extends AbstractEntity {
   })
   receiptNumber?: string;
 
-  @Column({ name: 'collected_by', type: 'bigint', nullable: true })
+  @Column({ name: 'collected_by', type: 'uuid', nullable: true })
   collectedBy?: string;
 
   @ManyToOne(() => UserEntity, { nullable: true })
@@ -121,7 +130,7 @@ export class LoanTransactionEntity extends AbstractEntity {
   @Column({ name: 'notes', type: 'text', nullable: true })
   notes?: string;
 
-  @Column({ name: 'reversal_ref', type: 'bigint', nullable: true })
+  @Column({ name: 'reversal_ref', type: 'uuid', nullable: true })
   reversalRef?: string;
 
   @Column({

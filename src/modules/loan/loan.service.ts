@@ -32,9 +32,9 @@ import { CreateLoanScheduleDto } from '../loan-schedule/dto/create-loan-schedule
 import { LoanScheduleStatus } from '../../constants/loan-schedule-status';
 import { OfficeService } from '../office/office.service';
 import { RoleType } from '../../constants/role-type';
-import * as PDFDocument from 'pdfkit';
-import * as fs from 'fs';
-import * as path from 'path';
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
+import path from 'path';
 import { GroupPackageService } from '../group-package/group-package.service';
 import { CreateGroupPackageDto } from '../group-package/dto';
 import { GroupPackageEntity } from '../group-package/entities/group-package.entity';

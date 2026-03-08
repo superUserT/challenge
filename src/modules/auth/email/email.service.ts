@@ -1,4 +1,4 @@
-import * as nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer';
 import config from 'config';
 
 export async function sendWelcomeEmail(

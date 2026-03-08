@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import fs from 'fs';
 import { parse } from 'csv-parse';
 
 export async function readCsvFile(): Promise<any[]> {

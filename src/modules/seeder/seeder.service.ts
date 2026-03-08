@@ -13,7 +13,7 @@ import { Center } from '../center/entities/center.entity';
 import { BankEntity } from '../bank/entities/bank.entity';
 import { LoanEntity } from '../loan/entities/loan.entity';
 import { Language } from '../language/entities/language.entity';
-import * as fs from 'fs';
+import fs from 'fs';
 import { parse } from 'csv-parse';
 import { CreateClientDto } from '../client/dto';
 import { UserEntity } from '../user/user.entity';
